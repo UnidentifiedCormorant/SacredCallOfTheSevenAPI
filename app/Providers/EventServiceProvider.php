@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ElementCreated;
+use App\Listeners\ElementLinkBinder;
+use App\Models\Element;
+use App\Observers\ElementObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+//        ElementCreated::class => [
+//            ElementLinkBinder::class
+//        ]
     ];
 
     /**
@@ -25,7 +32,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Element::observe(new ElementObserver());
     }
 
     /**
